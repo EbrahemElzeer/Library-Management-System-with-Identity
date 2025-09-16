@@ -1,0 +1,38 @@
+﻿@model Library_Managment_System.Models.Books
+<form  asp-route-id="" method="post" class="bookForm" id="ItemFormBook">
+	@if(Model.Id!=0){
+		<input type="hidden" name="Id" value="@Model.Id" />
+	}else{
+		<input type="hidden" name="Id" value="0" />
+	
+	}
+	<div>
+	<label asp-for="Title"></label>
+	<input class="form form-control" placeholder="please inter Title" asp-for="Title" />
+    <span class="text-danger" asp-validation-for="Title"></span>
+	</div>
+
+	<div>
+	<label asp-for="Auther"></label>
+		<input class="form form-control" placeholder="please inter Auther Name" asp-for="Auther" />
+	<span class="text-danger" asp-validation-for="Auther"></span>
+	</div>
+
+	<div>
+	<label asp-for="PublishedDate"></label>
+		
+	<input class="form form-control"  asp-for="PublishedDate" />
+	<span class="text-danger" asp-validation-for="PublishedDate"></span>
+	</div>
+
+	<div>
+	<label asp-for="NumberOfCopies"></label>
+		<input class="form form-control" placeholder="please inter Number of Copies " asp-for="NumberOfCopies" />
+	<span class="text-danger" asp-validation-for="NumberOfCopies"></span>
+	</div>
+
+	<button type="submit" id="editItemForm" class="btn btn-success mt-2">Save</button>
+	<button id="BtnCancel" type="button" asp-action="Index" class="btn btn-success mt-2">Cancel</button>
+
+</form>
+<partial name="_ValidationScriptsPartial" />

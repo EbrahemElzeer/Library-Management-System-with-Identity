@@ -1,0 +1,164 @@
+﻿@using X.PagedList.Mvc.Core;
+
+@model X.PagedList.IPagedList<Library_Managment_System.View_Model.BorrowViewModel>
+@{
+    ViewData["Title"] = "Borrow";
+}
+
+<h1>Borrow Book</h1>
+
+
+<div id="BorrowTableContainer">
+    @await Html.PartialAsync("_BorrowList", Model)
+</div>
+<button id="btnShowAddForm" class="btn btn-danger">Add</button>
+
+<div id="addFormContainer"></div>
+<div id="editFormContainer"></div>
+
+
+@* @section scripts { *@
+ 
+@*     <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
+@*     <script> *@
+@*          $('#btnShowAddForm').on('click', function () { *@
+@*             $.ajax({ *@
+@*                 url: '/Borrow/AddItem', *@
+@*                 type: 'GET', *@
+@*                 success: function (result) { *@
+@*                     $('#addFormContainer').html(result); *@
+@*                 }, *@
+@*                 error: function (xhr, status, error) { *@
+@*                     console.log("Error:", xhr.responseText); *@
+
+@*                 } *@
+@*             }); *@
+@*         }); *@
+
+
+
+@*          $(document).on('click', '#BtnCancel', function() { *@
+@*             $('#addFormContainer').html(''); *@
+@*              $('#editFormContainer').html(''); *@
+@*         }); *@
+
+
+@*          $(document).off('submit', '.borrowForm').on('submit', '.borrowForm', function (event) { *@
+@*             event.preventDefault(); *@
+
+@*             var formData = $(this).serialize(); *@
+@*             var borrowId = $(this).find('input[name="Id"]').val(); *@
+@*             var submitButton = $(this).find('button[type="submit"]'); *@
+@*             submitButton.prop('disabled', true); *@
+
+@*             $.ajax({ *@
+@*                 url: '/borrow/SaveBorrow',   *@
+@*                 type: 'POST', *@
+@*                 data: formData, *@
+@*                 success: function (response) { *@
+@*                     if (response.success) { *@
+@*                         $('#addFormContainer').html(''); *@
+@*                         $('#editFormContainer').html(''); *@
+@*                         $('#BorrowTableContainer').load('/Borrow/GetBorrowList'); *@
+@*                     } else { *@
+@*                        $('#borrowErrorMessage').removeClass('d-none').text(response.message); *@
+@*                     } *@
+@*                 }, *@
+@*                 error: function () { *@
+@*                     alert('فشل الاتصال بالسيرفر 😓'); *@
+@*                 }, *@
+@*                 complete: function () { *@
+@*                     submitButton.prop('disabled', false); *@
+@*                 } *@
+@*             }); *@
+@*         }); *@
+
+
+
+
+@*           $(document).on('click', '.btnShowEditForm', function (e) { *@
+@*             e.preventDefault(); *@
+
+@*             var BorrowId = $(this).data('id');  *@
+
+@*             $.ajax({ *@
+@*                 url: '/Borrow/EditBorrow?id=' + BorrowId, *@
+@*                 type: 'GET', *@
+@*                 success: function (result) { *@
+@*                     $('#editFormContainer').html(result); *@
+@*                 }, *@
+@*                 error: function (xhr, status, error) { *@
+@*                     console.log("Error:", xhr.responseText); *@
+@*                     alert('حصل خطأ، جرب تاني 😢'); *@
+@*                 } *@
+@*             }); *@
+@*         }); *@
+
+
+
+       
+
+@*         $(document).on('click', '.DeleteBorrow', function () { *@
+@*                     var BookId = $(this).data('id'); *@
+
+@*                     if (confirm('هل أنت متأكد أنك تريد حذف هذا العضو؟')) { *@
+@*                         $.ajax({ *@
+@*                             url: '/Borrow/DeleteBorrow', *@
+@*                             type: 'POST', *@
+@*                             data: { id: BookId }, *@
+@*                             success: function (response) { *@
+@*                                 if (response.success) { *@
+@*                                     alert('تم الحذف بنجاح'); *@
+@*                                     $('#BorrowTableContainer').load('/Borrow/GetBorrowList'); *@
+                                    
+@*                                 } *@
+@*                             }, *@
+@*                             error: function () { *@
+@*                                 alert('فشل الاتصال بالسيرفر'); *@
+@*                             } *@
+@*                         }); *@
+@*                     } *@
+@*                 }); *@
+
+
+
+
+
+
+
+@*     </script> *@
+
+@* } *@
+
+@section scripts {
+    <script src="~/js/crud-helper.js"></script>
+
+    <script>
+        // Show Form
+        $('#btnShowAddForm').on('click', function () {
+            loadForm('Borrow', 'AddItem', 'addFormContainer');
+        });
+
+        // Cancel
+        $(document).on('click', '#BtnCancel', function () {
+            $('#addFormContainer').html('');
+            $('#editFormContainer').html('');
+        });
+
+        // Save
+        submitForm('.borrowForm', 'Borrow', 'SaveBorrow', 'GetBorrowList', 'BorrowTableContainer');
+
+        // Delete
+        $(document).on('click', '.DeleteBorrow', function () {
+            const id = $(this).data('id');
+            deleteItem('Borrow', 'DeleteBorrow', id, 'GetBorrowList', 'BorrowTableContainer');
+        });
+
+        // Edit
+        $(document).on('click', '.btnShowEditForm', function (e) {
+            e.preventDefault();
+            const id = $(this).data('id');
+            loadForm('Borrow', `EditBorrow?id=${id}`, 'editFormContainer');
+        });
+    </script>
+}

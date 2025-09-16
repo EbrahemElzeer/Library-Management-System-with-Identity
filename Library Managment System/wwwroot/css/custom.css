@@ -1,0 +1,70 @@
+﻿/* Navbar Improvements */
+.navbar {
+  
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+    .navbar .nav-link {
+        color: white !important;
+        font-weight: 500;
+        margin-right: 10px;
+        transition: all 0.3s ease;
+    }
+
+        .navbar .nav-link:hover {
+            color: #ffd700 !important;
+            text-decoration: underline;
+        }
+
+.navbar-brand {
+    font-weight: bold;
+    color: white !important;
+}
+
+.navbar-text {
+    color: #ddd !important;
+}
+
+/* Dropdown Style */
+.dropdown-menu {
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    border: none;
+}
+
+.dropdown-item {
+    color: #333;
+    font-weight: 500;
+}
+
+    .dropdown-item:hover {
+        background-color: #e0e0e0;
+        color: #000;
+    }
+
+/* Footer Styling */
+footer.footer {
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 30px;
+}
+
+/* Main content */
+main {
+    padding-top: 20px;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #4e54c8;
+    border-color: #4e54c8;
+}
+
+    .btn-primary:hover {
+        background-color: #3d42b3;
+        border-color: #3d42b3;
+    }

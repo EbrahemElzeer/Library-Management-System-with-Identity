@@ -1,0 +1,36 @@
+﻿@model Library_Managment_System.Models.Member
+
+<form asp-action="SaveAdd" method="post" class="MemberForm" asp-route-id="" id="AddFormMember">
+
+	@if (Model.Id != 0)
+	{
+		
+		<input type="hidden" name="Id" value="@Model.Id" />
+	}
+	else
+	{
+		
+		<input type="hidden" name="Id" value="0" />
+	}
+	<div>
+	<label asp-for="Name"></label>
+	<input class="form form-control" placeholder="Please Inter Name" asp-for="Name" />
+		<span class="text-danger" asp-validation-for="Name"></span>
+	</div>
+
+	<div>
+	<label asp-for="Email"></label>
+	<input class="form form-control" placeholder="Please Inter Email " asp-for="Email" />
+		<span class="text-danger" asp-validation-for="Email"></span>
+	</div>
+
+	<div>
+	<label asp-for="Phone"></label>
+	<input class="form form-control" placeholder="Please Inter Phone" asp-for="Phone" />
+	<span class="text-danger" asp-validation-for="Phone"></span>
+	</div>
+
+	<button type="submit" id="editItemForm"  class="btn btn-success mt-2">Save</button>
+	<button id="BtnCancel" type="button" asp-action="Index" class="btn btn-success mt-2">Cancel</button>
+</form>
+<partial name="_ValidationScriptsPartial" />

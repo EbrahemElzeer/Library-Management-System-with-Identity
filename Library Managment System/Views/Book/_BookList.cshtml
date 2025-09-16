@@ -1,0 +1,48 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model IPagedList<Library_Managment_System.Models.Books>
+<h1>Books</h1>
+    <table class="table table-hover table-bordered">
+<thead>
+    <tr>
+        <th>id</th>
+        <th>Title</th>
+        <th>Auther</th>
+        <th>Number Of Copies</th>
+        <th>Published Date</th>
+    </tr>
+</thead>
+<tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Title</td>
+            <td>@item.Auther</td>
+            <td>@item.NumberOfCopies</td>
+                <td>@item.PublishedDate.ToString("yyyy-MM-dd")</td>
+            <td>
+                <button class="btn btn-danger DeleteBook" data-id="@item.Id">Delete</button>
+
+            </td>
+            <td> <button class="btn btn-light btnShowEditForm" data-id="@item.Id">Edit</button></td>
+        </tr>
+    }
+</tbody>
+</table>
+
+<div class="d-flex justify-content-center mt-3">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+            new PagedListRenderOptions
+    {
+        UlElementClasses = new[] { "pagination", "justify-content-center" },
+        LiElementClasses = new[] { "page-item" },
+        PageClasses = new[] { "page-link" },
+        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        DisplayLinkToIndividualPages = true,
+        ActiveLiElementClass = "active"
+    })
+</div>

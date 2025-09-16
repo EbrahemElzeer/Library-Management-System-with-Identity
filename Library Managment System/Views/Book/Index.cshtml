@@ -1,0 +1,151 @@
+﻿
+@using X.PagedList.Mvc.Core;
+
+@model X.PagedList.IPagedList<Books>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div id="BookTableContainer">
+    @await Html.PartialAsync("_BookList", Model)
+</div>
+
+
+<button id="btnShowAddForm" class="btn btn-danger">Add</button>
+
+<div id="addFormContainer"></div>
+<div id="editFormContainer"></div>
+
+@* @section scripts { *@
+ 
+@*     <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
+@*     <script> *@
+@*         $('#btnShowAddForm').on('click', function () { *@
+@*             $.ajax({ *@
+@*                 url: '/Book/AddItem', *@
+@*                 type: 'GET', *@
+@*                 success: function (result) { *@
+@*                     $('#addFormContainer').html(result); *@
+@*                 }, *@
+@*                 error: function (xhr, status, error) { *@
+@*                     console.log("Error:", xhr.responseText); *@
+
+@*                 } *@
+@*             }); *@
+@*         }); *@
+
+@*          $(document).on('click', '#BtnCancel', function() { *@
+@*             $('#addFormContainer').html(''); *@
+@*              $('#editFormContainer').html(''); *@
+@*         }); *@
+
+@*            $(document).on('click', '.btnShowEditForm', function (e) { *@
+@*             e.preventDefault(); *@
+
+@*             var memberId = $(this).data('id');  *@
+
+@*             $.ajax({ *@
+@*                 url: '/Book/EditBook?id=' + memberId, *@
+@*                 type: 'GET', *@
+@*                 success: function (result) { *@
+@*                     $('#editFormContainer').html(result); *@
+@*                 }, *@
+@*                 error: function (xhr, status, error) { *@
+@*                     console.log("Error:", xhr.responseText); *@
+@*                     alert('حصل خطأ، جرب تاني 😢'); *@
+@*                 } *@
+@*             }); *@
+@*         }); *@
+    
+
+@*           $(document).off('submit', '.bookForm').on('submit', '.bookForm', function (event) { *@
+@*             event.preventDefault(); *@
+
+@*             var formData = $(this).serialize(); *@
+@*             var bookId = $(this).find('input[name="Id"]').val(); *@
+@*             var submitButton = $(this).find('button[type="submit"]'); *@
+@*             submitButton.prop('disabled', true); *@
+
+@*             $.ajax({ *@
+@*                 url: '/book/SaveBook',   *@
+@*                 type: 'POST', *@
+@*                 data: formData, *@
+@*                 success: function (response) { *@
+@*                     if (response.success) { *@
+@*                         $('#addFormContainer').html(''); *@
+@*                         $('#editFormContainer').html(''); *@
+@*                         $('#BookTableContainer').load('/Book/GetBookList'); *@
+@*                     } else { *@
+@*                         alert('حدث خطأ أثناء الحفظ ❌'); *@
+@*                     } *@
+@*                 }, *@
+@*                 error: function () { *@
+@*                     alert('فشل الاتصال بالسيرفر 😓'); *@
+@*                 }, *@
+@*                 complete: function () { *@
+@*                     submitButton.prop('disabled', false); *@
+@*                 } *@
+@*             }); *@
+@*         }); *@
+
+
+@*            $(document).on('click', '.DeleteBook', function () { *@
+@*             var BookId = $(this).data('id'); *@
+
+@*             if (confirm('هل أنت متأكد أنك تريد حذف هذا العضو؟')) { *@
+@*                 $.ajax({ *@
+@*                     url: '/Book/DeleteBook', *@
+@*                     type: 'POST', *@
+@*                     data: { id: BookId }, *@
+@*                     success: function (response) { *@
+@*                         if (response.success) { *@
+@*                             alert('تم الحذف بنجاح'); *@
+@*                             $('#BookTableContainer').load('/Book/GetBookList');  *@
+@*                         } else { *@
+@*                             alert('حدث خطأ أثناء الحذف'); *@
+@*                         } *@
+@*                     }, *@
+@*                     error: function () { *@
+@*                         alert('فشل الاتصال بالسيرفر'); *@
+@*                     } *@
+@*                 }); *@
+@*             } *@
+@*         }); *@
+
+
+@*     </script> *@
+@* } *@
+@section scripts {
+    <script src="~/js/crud-helper.js"></script>
+
+    <script>
+        // Show Form
+        $('#btnShowAddForm').on('click', function () {
+            loadForm('Book', 'AddItem', 'addFormContainer');
+        });
+
+        // Cancel
+        $(document).on('click', '#BtnCancel', function () {
+            $('#addFormContainer').html('');
+            $('#editFormContainer').html('');
+        });
+
+        // Save
+        submitForm('.bookForm', 'Book', 'SaveBook', 'GetBookList', 'BookTableContainer');
+
+        // Delete
+        $(document).on('click', '.DeleteBook', function () {
+            const id = $(this).data('id');
+            deleteItem('Book', 'DeleteBook', id, 'GetBookList', 'BookTableContainer');
+        });
+
+        // Edit
+        $(document).on('click', '.btnShowEditForm', function (e) {
+            e.preventDefault();
+            const id = $(this).data('id');
+            loadForm('Book', `EditBook?id=${id}`, 'editFormContainer');
+        });
+    </script>
+}
+

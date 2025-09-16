@@ -1,0 +1,151 @@
+﻿@using Library_Managment_System.Models
+@using X.PagedList
+@model IPagedList<Member>
+
+<h1>Members</h1>
+
+<div id="memberTableContainer">
+    @await Html.PartialAsync("_MemberList", Model)
+</div>
+
+<button id="btnShowAddForm" class="btn btn-danger">Add</button>
+
+<div id="addFormContainer"></div>
+<div id="editFormContainer"></div>
+
+
+@* @section scripts { *@
+ 
+@*     <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
+@*     <script> *@
+@*         $('#btnShowAddForm').on('click', function () { *@
+@*             $.ajax({ *@
+@*                 url: '/Member/AddItem',  *@
+@*                 type: 'GET', *@
+@*                 success: function (result) { *@
+@*                     $('#addFormContainer').html(result); *@
+@*                 }, *@
+@*                 error: function (xhr, status, error) { *@
+@*                     console.log("Error:", xhr.responseText);  *@
+                  
+@*                 } *@
+@*             }); *@
+@*         }); *@
+@*             $(document).on('click', '#BtnCancel', function() { *@
+@*             $('#addFormContainer').html(''); *@
+@*              $('#editFormContainer').html(''); *@
+@*         }); *@
+
+    
+
+
+@*             $(document).on('click', '.btnShowEditForm', function (e) { *@
+@*             e.preventDefault(); *@
+
+@*             var memberId = $(this).data('id');  *@
+
+@*             $.ajax({ *@
+@*                 url: '/Member/EditMember?id=' + memberId, *@
+@*                 type: 'GET', *@
+@*                 success: function (result) { *@
+@*                     $('#editFormContainer').html(result); *@
+@*                 }, *@
+@*                 error: function (xhr, status, error) { *@
+@*                     console.log("Error:", xhr.responseText); *@
+@*                     alert('حصل خطأ، جرب تاني 😢'); *@
+@*                 } *@
+@*             }); *@
+@*         }); *@
+      
+
+
+@*                 $(document).off('submit', '.memberForm').on('submit', '.memberForm', function (event) { *@
+@*             event.preventDefault(); *@
+
+@*             var formData = $(this).serialize(); *@
+@*             var memberId = $(this).find('input[name="Id"]').val(); *@
+@*             var submitButton = $(this).find('button[type="submit"]'); *@
+@*             submitButton.prop('disabled', true); *@
+
+@*             $.ajax({ *@
+@*                 url: '/Member/SaveAdd',   *@
+@*                 type: 'POST', *@
+@*                 data: formData, *@
+@*                 success: function (response) { *@
+@*                     if (response.success) { *@
+@*                         $('#addFormContainer').html(''); *@
+@*                         $('#editFormContainer').html(''); *@
+@*                         $('#memberTableContainer').load('/Member/GetMemberList'); *@
+@*                     } else { *@
+@*                         alert('حدث خطأ أثناء الحفظ ❌'); *@
+@*                     } *@
+@*                 }, *@
+@*                 error: function () { *@
+@*                     alert('فشل الاتصال بالسيرفر 😓'); *@
+@*                 }, *@
+@*                 complete: function () { *@
+@*                     submitButton.prop('disabled', false); *@
+@*                 } *@
+@*             }); *@
+@*         }); *@
+
+
+@*                    $(document).on('click', '.DeleteMember', function () { *@
+@*             var memberId = $(this).data('id'); *@
+
+@*             if (confirm('هل أنت متأكد أنك تريد حذف هذا العضو؟')) { *@
+@*                 $.ajax({ *@
+@*                     url: '/Member/DeleteMember', *@
+@*                     type: 'POST', *@
+@*                     data: { id: memberId }, *@
+@*                     success: function (response) { *@
+@*                         if (response.success) { *@
+@*                             alert('تم الحذف بنجاح'); *@
+@*                             $('#memberTableContainer').load('/Member/GetMemberList');  *@
+@*                         } else { *@
+@*                             alert('حدث خطأ أثناء الحذف'); *@
+@*                         } *@
+@*                     }, *@
+@*                     error: function () { *@
+@*                         alert('فشل الاتصال بالسيرفر'); *@
+@*                     } *@
+@*                 }); *@
+@*             } *@
+@*         }); *@
+
+@*     </script> *@
+@* } *@
+
+
+@section scripts {
+    <script src="~/js/crud-helper.js"></script>
+
+    <script>
+        //Show Form
+        $('#btnShowAddForm').on('click', function () {
+            loadForm('Member', 'AddItem', 'addFormContainer');
+        });
+
+        // Cancel
+        $(document).on('click', '#BtnCancel', function () {
+            $('#addFormContainer').html('');
+            $('#editFormContainer').html('');
+        });
+
+        // Save
+        submitForm('.MemberForm', 'Member', 'SaveAdd', 'GetMemberList', 'memberTableContainer');
+
+        // DElete
+        $(document).on('click', '.DeleteMember', function () {
+            const id = $(this).data('id');
+            deleteItem('Member', 'DeleteMember', id, 'GetMemberList', 'memberTableContainer');
+        });
+
+        // Edit
+        $(document).on('click', '.btnShowEditForm', function (e) {
+            e.preventDefault();
+            const id = $(this).data('id');
+            loadForm('Member', `EditMember?id=${id}`, 'editFormContainer');
+        });
+    </script>
+}

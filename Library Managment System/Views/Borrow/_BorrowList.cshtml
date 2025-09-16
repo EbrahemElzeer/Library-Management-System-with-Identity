@@ -1,0 +1,48 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<Library_Managment_System.View_Model.BorrowViewModel>
+
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>Book Title </th>
+            <th> Member Name </th>
+            <th>Borrow Date</th>
+            <th> Return Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.BookTitle</td>
+                <td>@item.MemberName</td>
+                <td>@item.BorrowDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.ReturnDate.ToString("yyyy-MM-dd")</td>
+                <td>
+                    <button class="btn btn-danger DeleteBorrow" data-id="@item.Id">Delete</button>
+
+                </td>
+                <td> <button class="btn btn-light btnShowEditForm" data-id="@item.Id">Edit</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-center mt-3">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+            new PagedListRenderOptions
+    {
+        UlElementClasses = new[] { "pagination", "justify-content-center" },
+        LiElementClasses = new[] { "page-item" },
+        PageClasses = new[] { "page-link" },
+        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        DisplayLinkToIndividualPages = true,
+        ActiveLiElementClass = "active"
+    })
+</div>

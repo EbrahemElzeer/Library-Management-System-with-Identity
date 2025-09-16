@@ -1,0 +1,73 @@
+﻿@model Library_Managment_System.View_Model.BorrowViewModel
+
+<form asp-route-id="" method="post" id="ItemFormBorrow" class="borrowForm">
+
+	<div id="borrowErrorMessage" class="alert alert-danger d-none"></div>
+	@if(Model.Id!=0){
+		<input type="hidden" name="Id" value="@Model.Id" />
+	}else{
+		<input type="hidden" name="Id" value="0" />
+	
+	}
+
+	<div>
+	<label>Book</label>
+	<span asp-validation-for="BookID" class="text-danger"></span>
+	<select class="form-control" name="BookID">
+		<option value="0">-- اختر كتاب --</option>
+
+		
+		@foreach (var book in Model.BookList)
+		{
+			@if (Model.BookID == book.Id){
+				<option selected value="@book.Id">@book.Title</option>
+			}else{
+			<option value="@book.Id">@book.Title</option>
+			}
+		}
+	</select>
+	</div>
+
+	<div>
+	<label>Member</label>
+		<span asp-validation-for="MemberID" class="text-danger"></span>
+	<select class="form-control" name="MemberID">
+		<option disabled selected>-- اختر عضو --</option>
+		@foreach (var member in Model.MemberList)
+		{
+			if (Model.MemberID == member.Id)
+			{
+				<option selected value="@member.Id">@member.Name</option>
+			}
+			else
+			{
+				<option value="@member.Id">@member.Name</option>
+			}
+		}
+	</select>
+	</div>
+
+
+	@* <label asp-for="MemberID"></label> *@
+	@* <input class="form form-control" asp-for="MemberID" /> *@
+	<div>
+		<span asp-validation-for="ReturnDate" class="text-danger"></span>
+	<label asp-for="ReturnDate"></label>
+	<input class="form form-control" type="date" asp-for="ReturnDate" />
+	</div>
+
+
+	<div>
+		<span asp-validation-for="BorrowDate" class="text-danger"></span>
+	<label asp-for="BorrowDate"></label>
+	<input class="form form-control" type="date" asp-for="BorrowDate" />
+	</div>
+	<button type="submit" id="editItemForm" class="btn btn-success mt-2">Save</button>
+	<button id="BtnCancel" type="button" asp-action="Index" class="btn btn-success mt-2">Cancel</button>
+
+</form>
+
+<partial name="_ValidationScriptsPartial" />  
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
