@@ -4,9 +4,6 @@ using EF_layer;
 using Library_Managment_System.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
-using RepositoryLayer.Interfaces;
-using X.PagedList;
 using X.PagedList.Extensions;
 using static System.Reflection.Metadata.BlobBuilder;
 
@@ -25,16 +22,23 @@ namespace Library_Managment_System.Controllers
         [Authorize]
         public async Task<IActionResult> Index(int? page)
         {
-            var Items = await BookService.GetAllAsync();
-            
-            var pagination = Items.ToPagedList(page ?? 1, 5);
-            return View("index", pagination);
+            var pageNumber = Math.Max(page ?? 1, 1);
+            const int pageSize = 5;
+            var items = await BookService.GetAllAsync() ?? new List<Books>();
+            var pagination = items.ToPagedList(pageNumber, pageSize);
+            return View("Index", pagination);
         }
 
-        public async Task<IActionResult> GetBookList()
+       
+        public async Task<IActionResult> GetBookList(int? page) 
         {
-            var Items = await BookService.GetAllAsync();
-            var pagelist = Items.ToPagedList(1, 5);
+            var pageNumber = Math.Max(page ?? 1, 1);
+            const int pageSize = 5;
+
+            var items = await BookService.GetAllAsync() ?? new List<Books>();
+
+            var pagelist = items.ToPagedList(pageNumber, pageSize);
+
             return PartialView("_BookList", pagelist);
         }
 

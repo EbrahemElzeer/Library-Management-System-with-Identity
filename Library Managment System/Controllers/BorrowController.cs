@@ -30,14 +30,19 @@ namespace Library_Managment_System.Controllers
             MemberService = _MemberService;
             _mapper = mapper;
         }
+      
         public async Task<IActionResult> Index(int? page)
         {
-            var items = await BorrowService.GetAllAsync(); 
-           
-            var viewModelList=_mapper.Map<List<BorrowViewModel>>(items);
+            var pageNumber = Math.Max(page ?? 1, 1);
+            const int pageSize = 5;
 
-            IPagedList<BorrowViewModel> pagination = viewModelList.ToPagedList(page ?? 1, 5);
-            return View("Index", pagination);
+            var items = await BorrowService.GetAllAsync() ?? new List<Borrow>(); 
+
+            var viewModelList = _mapper.Map<List<BorrowViewModel>>(items);
+
+            IPagedList<BorrowViewModel> pagination = viewModelList.ToPagedList(pageNumber, pageSize);
+
+            return View(pagination);
         }
 
 

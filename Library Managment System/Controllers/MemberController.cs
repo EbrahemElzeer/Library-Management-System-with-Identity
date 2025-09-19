@@ -22,20 +22,28 @@ namespace Library_Managment_System.Controllers
             MemberService = _MemberService;
         }
         [Authorize]
+     
         public async Task<IActionResult> Index(int? page)
         {
+            var pageNumber = Math.Max(page ?? 1, 1);
+            const int pageSize = 5;
 
-            var Item = await MemberService.GetAllAsync();
-            IPagedList<Member> pagination = Item.ToPagedList(page ?? 1, 5);
+            var items = await MemberService.GetAllAsync() ?? new List<Member>();
+            IPagedList<Member> pagination = items.ToPagedList(pageNumber, pageSize);
+
             return View("Index", pagination);
         }
+
         public async Task<IActionResult> GetMemberList(int? page)
         {
-            var members = await MemberService.GetAllAsync();
-            var pagelist = members.ToPagedList(page ?? 1, 5);
+            var pageNumber = Math.Max(page ?? 1, 1);
+            const int pageSize = 5;
+
+            var members = await MemberService.GetAllAsync() ?? new List<Member>();
+            var pagelist = members.ToPagedList(pageNumber, pageSize);
+
             return PartialView("_MemberList", pagelist);
         }
-
         public IActionResult AddItem()
         {
            
